@@ -4,7 +4,7 @@ on:
   schedule:
     # Запуск каждые 48 часов (в 00:00 каждого второго дня)
     - cron: '0 0 */2 * *'
-  workflow_dispatch: # Чтобы ты мог запустить ритуал вручную кнопкой
+  workflow_dispatch: 
 
 jobs:
   scrub:
@@ -28,7 +28,7 @@ jobs:
           pip install playwright && playwright install-deps chromium
 
       - name: 🔮 Execute Scrabber Ritual
-        run: python scrabber.py  # Проверь, чтобы имя файла совпадало!
+        run: python scrabber.py 
 
       - name: 🛡️ Commit and Push Artifacts
         run: |
