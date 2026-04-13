@@ -1,84 +1,59 @@
 import asyncio
-from playwright.async_api import async_playwright
+import httpx
 import re
 from datetime import datetime
 import os
 
-# Конфиг
 SOURCE_FILE = 'sources.txt'
 OUTPUT_FILE = 'ads.txt'
-MAX_CONCURRENT_SITES = 3  # Сколько сайтов парсим одновременно
+MAX_CONCURRENT = 10 # Можем херачить сразу по 10 сайтов, это же не браузер
 
 AD_PATTERNS = re.compile(
-    r'(ads?|track|doubleclick|pixel|analytics|metrics|marketing|popunder|banner|affiliate|pangle|adnxs|flurry|yandex.*metrica|google-analytics)', 
+    r'https?://(?:www\.)?([\w\-\.]+\.(?:com|net|org|ru|tv|io|biz|info|me|top|xyz|pro|online)(?:/(?:[\w\-\.]+))?)', 
     re.IGNORECASE
 )
 
-async def scrub_site(browser, url, semaphore):
+# Ключевые слова-паразиты
+BLACK_KEYWORDS = ['ads', 'track', 'doubleclick', 'pixel', 'analytics', 'metrics', 'popunder', 'affiliate']
+
+async def scrub_fast(client, url, semaphore):
     async with semaphore:
-        print(f"📡 Вторжение: {url}")
-        context = await browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
-        )
-        page = await context.new_page()
-        found_in_site = set()
-
-        # Слушаем сетевые запросы
-        page.on("request", lambda request: analyze_request(request.url, found_in_site))
-
+        print(f"📡 Сканирую: {url}")
+        found = set()
         try:
-            # wait_until="domcontentloaded" — это секрет скорости
-            await page.goto(f"http://{url}", wait_until="domcontentloaded", timeout=10000)
-            # Быстрый скролл для триггера рекламы
-            await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-            await asyncio.sleep(2) 
+            # Просто тянем текст страницы, не запуская браузер
+            resp = await client.get(f"http://{url}", timeout=10, follow_redirects=True)
+            
+            # Ищем все ссылки в тексте страницы
+            matches = AD_PATTERNS.findall(resp.text)
+            for link in matches:
+                # Если в ссылке есть рекламное слово — забираем домен
+                if any(key in link.lower() for key in BLACK_KEYWORDS):
+                    domain = link.split('/')[0]
+                    found.add(domain)
         except Exception:
-            print(f"⚠️  {url} слишком медленный или заблокирован. Пропускаем.")
-        finally:
-            await page.close()
-            await context.close()
-        return found_in_site
-
-def analyze_request(request_url, storage):
-    match = re.search(r'https?://(?:www\.)?([\w\-\.]+)', request_url)
-    if match:
-        domain = match.group(1)
-        if AD_PATTERNS.search(domain):
-            storage.add(domain)
+            print(f"⚠️ {url} в отказ")
+        return found
 
 async def main():
-    print("🔮 Ритуал обновления артефакта V.O.I.D запущен...")
+    print("🔮 Ритуал мгновенной очистки запущен...")
+    if not os.path.exists(SOURCE_FILE): return
 
-    if not os.path.exists(SOURCE_FILE):
-        print(f"❌ Файл {SOURCE_FILE} не найден!")
-        return
-
-    with open(SOURCE_FILE, 'r', encoding='utf-8') as f:
+    with open(SOURCE_FILE, 'r') as f:
         targets = [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
-        semaphore = asyncio.Semaphore(MAX_CONCURRENT_SITES)
-        
-        # Создаем задачи для всех сайтов
-        tasks = [scrub_site(browser, target, semaphore) for target in targets]
+    semaphore = asyncio.Semaphore(MAX_CONCURRENT)
+    async with httpx.AsyncClient(headers={'User-Agent': 'Mozilla/5.0...'}, verify=False) as client:
+        tasks = [scrub_fast(client, target, semaphore) for target in targets]
         results = await asyncio.gather(*tasks)
 
-        all_parasites = set()
-        for res in results:
-            all_parasites.update(res)
+    all_domains = set().union(*results)
 
-        await browser.close()
-
-    # Запись в корень репо
-    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        f.write(f"# V.O.I.D ad scrabber | Сформировано: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-        f.write("# Лицензия: МАНИФЕСТ СВОБОДНОЙ ЦИТАДЕЛИ (GPLv3)\n")
-        f.write("# Статус: Активен. Смерть рекламе.\n\n")
-        for domain in sorted(all_parasites):
-            f.write(f"0.0.0.0 {domain}\n")
-
-    print(f"🔥 Ритуал завершен. {OUTPUT_FILE} обновлен. Найдено паразитов: {len(all_parasites)}")
+    with open(OUTPUT_FILE, 'w') as f:
+        f.write(f"# V.O.I.D Fast Scrabber | {datetime.now()}\n\n")
+        for d in sorted(all_domains):
+            f.write(f"0.0.0.0 {d}\n")
+    print(f"🔥 Готово! Найдено: {len(all_domains)}")
 
 if __name__ == "__main__":
     asyncio.run(main())
