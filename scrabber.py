@@ -7,37 +7,37 @@ import os
 # Конфиг
 SOURCE_FILE = 'sources.txt'
 OUTPUT_FILE = 'ads.txt'
+MAX_CONCURRENT_SITES = 3  # Сколько сайтов парсим одновременно
 
-# Паттерны для вычисления рекламной нечисти
 AD_PATTERNS = re.compile(
-    r'(ads?|track|doubleclick|pixel|analytics|metrics|marketing|popunder|banner|affiliate|pangle|adnxs|flurry)', 
+    r'(ads?|track|doubleclick|pixel|analytics|metrics|marketing|popunder|banner|affiliate|pangle|adnxs|flurry|yandex.*metrica|google-analytics)', 
     re.IGNORECASE
 )
 
-async def scrub_site(browser, url):
-    print(f"📡 Вторжение в цифровое пространство: {url}")
-    # Контекст с подменой юзер-агента
-    context = await browser.new_context(
-        user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
-    )
-    page = await context.new_page()
-    found_in_site = set()
+async def scrub_site(browser, url, semaphore):
+    async with semaphore:
+        print(f"📡 Вторжение: {url}")
+        context = await browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+        )
+        page = await context.new_page()
+        found_in_site = set()
 
-    # Перехват каждого шороха в сети
-    page.on("request", lambda request: analyze_request(request.url, found_in_site))
+        # Слушаем сетевые запросы
+        page.on("request", lambda request: analyze_request(request.url, found_in_site))
 
-    try:
-        # Пытаемся зайти. Ждем networkidle, чтобы отловить отложенную рекламу
-        await page.goto(f"http://{url}", wait_until="networkidle", timeout=20000)
-        # Прокрутка вниз — триггер для ленивых скриптов
-        await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-        await asyncio.sleep(3) 
-    except Exception as e:
-        print(f"⚠️  Объект {url} выставил щиты: {e}")
-    finally:
-        await page.close()
-        await context.close()
-    return found_in_site
+        try:
+            # wait_until="domcontentloaded" — это секрет скорости
+            await page.goto(f"http://{url}", wait_until="domcontentloaded", timeout=10000)
+            # Быстрый скролл для триггера рекламы
+            await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            await asyncio.sleep(2) 
+        except Exception:
+            print(f"⚠️  {url} слишком медленный или заблокирован. Пропускаем.")
+        finally:
+            await page.close()
+            await context.close()
+        return found_in_site
 
 def analyze_request(request_url, storage):
     match = re.search(r'https?://(?:www\.)?([\w\-\.]+)', request_url)
@@ -47,10 +47,10 @@ def analyze_request(request_url, storage):
             storage.add(domain)
 
 async def main():
-    print("🔮 Ритуал обновления артефакта запущен...")
+    print("🔮 Ритуал обновления артефакта V.O.I.D запущен...")
 
     if not os.path.exists(SOURCE_FILE):
-        print(f"❌ Критическая ошибка: {SOURCE_FILE} не найден в корне!")
+        print(f"❌ Файл {SOURCE_FILE} не найден!")
         return
 
     with open(SOURCE_FILE, 'r', encoding='utf-8') as f:
@@ -58,23 +58,27 @@ async def main():
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
-        all_parasites = set()
+        semaphore = asyncio.Semaphore(MAX_CONCURRENT_SITES)
+        
+        # Создаем задачи для всех сайтов
+        tasks = [scrub_site(browser, target, semaphore) for target in targets]
+        results = await asyncio.gather(*tasks)
 
-        for target in targets:
-            results = await scrub_site(browser, target)
-            all_parasites.update(results)
+        all_parasites = set()
+        for res in results:
+            all_parasites.update(res)
 
         await browser.close()
 
-    # Запись/Обновление файла ads.txt прямо в корне
-    mode = 'w' # Всегда перезаписываем свежаком
-    with open(OUTPUT_FILE, mode, encoding='utf-8') as f:
+    # Запись в корень репо
+    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         f.write(f"# V.O.I.D ad scrabber | Сформировано: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write("# Лицензия: МАНИФЕСТ СВОБОДНОЙ ЦИТАДЕЛИ (GPLv3)\n")
         f.write("# Статус: Активен. Смерть рекламе.\n\n")
         for domain in sorted(all_parasites):
             f.write(f"0.0.0.0 {domain}\n")
 
-    print(f"🔥 Ритуал завершен. Файл {OUTPUT_FILE} обновлен. Обнаружено угроз: {len(all_parasites)}")
+    print(f"🔥 Ритуал завершен. {OUTPUT_FILE} обновлен. Найдено паразитов: {len(all_parasites)}")
 
 if __name__ == "__main__":
     asyncio.run(main())
