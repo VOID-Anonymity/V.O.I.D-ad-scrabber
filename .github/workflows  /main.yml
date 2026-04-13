@@ -1,0 +1,39 @@
+name: 🌌 Ritual of Eternal Purification (V.O.I.D Update)
+
+on:
+  schedule:
+    # Запуск каждые 48 часов (в 00:00 каждого второго дня)
+    - cron: '0 0 */2 * *'
+  workflow_dispatch: # Чтобы ты мог запустить ритуал вручную кнопкой
+
+jobs:
+  scrub:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Install Magic Tools (Playwright & Dependencies)
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright
+          playwright install chromium
+          # Установка системных зависимостей для браузера в Ubuntu
+          pip install playwright && playwright install-deps chromium
+
+      - name: 🔮 Execute Scrabber Ritual
+        run: python scrabber.py  # Проверь, чтобы имя файла совпадало!
+
+      - name: 🛡️ Commit and Push Artifacts
+        run: |
+          git config --local user.email "andrienkovova266@gmail.com"
+          git config --local user.name "V.O.I.D Scrabber Bot"
+          git add ads.txt
+          # Коммитим только если файл реально изменился
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🌌 Ritual complete: ads.txt updated by V.O.I.D [$(date)]" && git push)
