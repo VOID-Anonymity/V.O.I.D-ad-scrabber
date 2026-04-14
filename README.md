@@ -30,7 +30,7 @@
 2. Перейди во вкладку **"Списки фильтров"** (Filter lists).
 3. Найди раздел **"Импорт"** или **"Пользовательские"**.
 4. Вставь следующую ссылку:
-   `https://raw.githubusercontent.com/твой_профиль/v.o.i.d-ad-scrabber/main/dist/void_hosts.txt`
+   `https://raw.githubusercontent.com/VOID-Anonymity/V.O.I.D-ad-scrabber/refs/heads/main/ads.txt`
 5. Нажми "Применить изменения".
 ```
 
