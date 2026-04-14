@@ -1,10 +1,12 @@
-# V.O.I.D Fast Scrabber | 2026-04-13 14:27:36.772821
+# V.O.I.D Fast Scrabber | 2026-04-14 13:50:46.954491
+# Автоматический бан-лист рекламных доменов
 
 0.0.0.0 ads.adfox.ru
 0.0.0.0 ads.betweendigital.com
 0.0.0.0 ads.brave.com
 0.0.0.0 ads.rustore.ru
 0.0.0.0 ads.trafficjunky.net
+0.0.0.0 ads.vk.com
 0.0.0.0 adscore.com
 0.0.0.0 adsecure.com
 0.0.0.0 affiliate-program.amazon.com
@@ -13,38 +15,20 @@
 0.0.0.0 c.aps.amazon-adsystem.com
 0.0.0.0 cdn.targetads.io
 0.0.0.0 certificate.adscore.com
-0.0.0.0 datatracker.ietf.org
-0.0.0.0 discord.com
-0.0.0.0 enter.javhd.com
-0.0.0.0 eroadvertising.com
-0.0.0.0 exoclick.com
-0.0.0.0 facebook.com
 0.0.0.0 google-analytics.com
 0.0.0.0 googleads.g.doubleclick.net
 0.0.0.0 help.juicyads.com
-0.0.0.0 instagram.com
 0.0.0.0 juicyads.com
 0.0.0.0 juicyads.dashery.com
 0.0.0.0 manage.juicyads.com
 0.0.0.0 ogads-pa.clients6.google.com
 0.0.0.0 p.adsymptotic.com
-0.0.0.0 partners.vbr.ru
 0.0.0.0 popads.net
-0.0.0.0 redditstatic.com
-0.0.0.0 rusfootball.info
 0.0.0.0 staging.juicyads.com
 0.0.0.0 static.doubleclick.net
 0.0.0.0 static.popads.net
-0.0.0.0 t.me
-0.0.0.0 thelastgame.org
+0.0.0.0 tracker.my.com
 0.0.0.0 tracker.partnersmelbet.ru
+0.0.0.0 tracker.yandex.com
 0.0.0.0 tracker.yandex.ru
-0.0.0.0 trafficstars.com
-0.0.0.0 twitter.com
-0.0.0.0 utorrent.com
 0.0.0.0 ux13.juicyads.com
-0.0.0.0 vbr.ru
-0.0.0.0 x.com
-0.0.0.0 yandex.com
-0.0.0.0 yandex.ru
-0.0.0.0 youtube.com
