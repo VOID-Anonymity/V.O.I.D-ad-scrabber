@@ -1,7 +1,7 @@
 # 🛡️ V.O.I.D ad scrabber: The Silent Reaper of Adware
 
 <p align="center">
-  <img src="https://i.pinimg.com/736x/f7/c1/4b/f7c14b33f9e1327447cb3485f71d4451.jpg" width="850">
+  <img src="https://i.pinimg.com/736x/51/95/43/5195437d0e51d5dda8cdabf92fb308ec.jpg" width="850">
 </p>
 
 > *"Тьма пожирает свет, а Щит Бездны поглощает тех, кто осмелился следить за тобой в тени цифровых миров."*
