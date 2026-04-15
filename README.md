@@ -1,4 +1,4 @@
-# 🛡️ V.O.I.D ad scrabber: The Silent Reaper of Adware
+# 🛡️ V.O.I.D™ ad scrabber: The Silent Reaper of Adware
 
 <p align="center">
   <img src="https://i.pinimg.com/736x/51/95/43/5195437d0e51d5dda8cdabf92fb308ec.jpg" width="850">
