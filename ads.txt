@@ -1,4 +1,4 @@
-# V.O.I.D Fast Scrabber | 2026-04-19 02:47:47.549451
+# V.O.I.D Fast Scrabber | 2026-04-21 02:42:07.062408
 # Автоматический бан-лист рекламных доменов
 
 0.0.0.0 ads.adfox.ru
@@ -31,4 +31,5 @@
 0.0.0.0 tracker.partnersmelbet.ru
 0.0.0.0 tracker.yandex.com
 0.0.0.0 tracker.yandex.ru
+0.0.0.0 tracking.vbr.ru
 0.0.0.0 ux13.juicyads.com
