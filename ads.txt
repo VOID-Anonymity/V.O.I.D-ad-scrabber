@@ -1,4 +1,4 @@
-# V.O.I.D Fast Scrabber | 2026-05-05 02:50:02.169940
+# V.O.I.D Fast Scrabber | 2026-05-07 02:57:04.348327
 # Автоматический бан-лист рекламных доменов
 
 0.0.0.0 ads.adfox.ru
@@ -9,6 +9,7 @@
 0.0.0.0 ads.vk.com
 0.0.0.0 adscore.com
 0.0.0.0 adsecure.com
+0.0.0.0 affiliate-program.amazon.com
 0.0.0.0 analytics.brave.com
 0.0.0.0 analytics.google.com
 0.0.0.0 c.aps.amazon-adsystem.com
