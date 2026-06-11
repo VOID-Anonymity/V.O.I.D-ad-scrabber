@@ -1,4 +1,4 @@
-# V.O.I.D Fast Scrabber | 2026-06-09 03:36:30.200651
+# V.O.I.D Fast Scrabber | 2026-06-11 04:03:56.287135
 # Автоматический бан-лист рекламных доменов
 
 0.0.0.0 ads.adfox.ru
@@ -6,16 +6,13 @@
 0.0.0.0 ads.brave.com
 0.0.0.0 ads.rustore.ru
 0.0.0.0 ads.trafficjunky.net
-0.0.0.0 ads.vk.com
 0.0.0.0 adscore.com
 0.0.0.0 adsecure.com
-0.0.0.0 affiliate-program.amazon.com
 0.0.0.0 analytics.brave.com
 0.0.0.0 analytics.google.com
 0.0.0.0 c.aps.amazon-adsystem.com
 0.0.0.0 cdn.targetads.io
 0.0.0.0 certificate.adscore.com
-0.0.0.0 click.tgtrack.ru
 0.0.0.0 google-analytics.com
 0.0.0.0 googleads.g.doubleclick.net
 0.0.0.0 help.juicyads.com
@@ -27,7 +24,6 @@
 0.0.0.0 staging.juicyads.com
 0.0.0.0 static.doubleclick.net
 0.0.0.0 static.popads.net
-0.0.0.0 tracker.my.com
 0.0.0.0 tracker.yandex.com
 0.0.0.0 tracker.yandex.ru
 0.0.0.0 ux13.juicyads.com
