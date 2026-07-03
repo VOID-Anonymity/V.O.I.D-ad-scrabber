@@ -1,11 +1,11 @@
-# V.O.I.D Fast Scrabber | 2026-07-01 03:59:25.489245
+# V.O.I.D Fast Scrabber | 2026-07-03 03:20:49.928431
 # Автоматический бан-лист рекламных доменов
 
 0.0.0.0 ads.adfox.ru
 0.0.0.0 ads.betweendigital.com
 0.0.0.0 ads.brave.com
 0.0.0.0 ads.rustore.ru
-0.0.0.0 ads.trafficjunky.net
+0.0.0.0 ads.vk.com
 0.0.0.0 adscore.com
 0.0.0.0 adsecure.com
 0.0.0.0 analytics.brave.com
@@ -24,6 +24,7 @@
 0.0.0.0 staging.juicyads.com
 0.0.0.0 static.doubleclick.net
 0.0.0.0 static.popads.net
+0.0.0.0 tracker.my.com
 0.0.0.0 tracker.yandex.com
 0.0.0.0 tracker.yandex.ru
 0.0.0.0 ux13.juicyads.com
