@@ -1,4 +1,4 @@
-# V.O.I.D Fast Scrabber | 2026-09-13 03:35:08.471619
+# V.O.I.D Fast Scrabber | 2026-09-15 03:45:27.323190
 # Автоматический бан-лист рекламных доменов
 
 0.0.0.0 ads-help.brave.com
@@ -9,6 +9,7 @@
 0.0.0.0 ads.trafficjunky.net
 0.0.0.0 adscore.com
 0.0.0.0 adsecure.com
+0.0.0.0 affiliate-program.amazon.com
 0.0.0.0 analytics.brave.com
 0.0.0.0 analytics.google.com
 0.0.0.0 c.aps.amazon-adsystem.com
@@ -22,7 +23,6 @@
 0.0.0.0 ogads-pa.clients6.google.com
 0.0.0.0 p.adsymptotic.com
 0.0.0.0 popads.net
-0.0.0.0 rutracker.org
 0.0.0.0 staging.juicyads.com
 0.0.0.0 static.doubleclick.net
 0.0.0.0 static.popads.net
