@@ -1,4 +1,4 @@
-# V.O.I.D Fast Scrabber | 2026-10-25 03:32:32.694068
+# V.O.I.D Fast Scrabber | 2026-10-27 04:00:09.490690
 # Автоматический бан-лист рекламных доменов
 
 0.0.0.0 ads-help.brave.com
@@ -9,7 +9,6 @@
 0.0.0.0 ads.trafficjunky.net
 0.0.0.0 adscore.com
 0.0.0.0 adsecure.com
-0.0.0.0 affiliate-program.amazon.com
 0.0.0.0 analytics.brave.com
 0.0.0.0 c.aps.amazon-adsystem.com
 0.0.0.0 cdn.targetads.io
